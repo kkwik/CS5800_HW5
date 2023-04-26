@@ -35,7 +35,13 @@ public class Message {
         String output = "";
         output += String.format("To: %s\n", this.getRecipients().stream().map(user -> user.getName()).collect(Collectors.toList()));
         output += String.format("From: %s\n", this.getSender().getName());
-        output += String.format("Contains: %s\n", this.getContent());
+        output += String.format("Contains: %s", this.getContent());
+        return output;
+    }
+
+    public String toSimplifiedString() {
+        String output = "";
+        output += String.format("%s -> %s: [%s]", this.getSender().getName(), this.getRecipients().stream().map(user -> user.getName()).collect(Collectors.toList()), this.getContent());
         return output;
     }
 }

@@ -17,6 +17,12 @@ public class User {
 
     public void setChatServer(ChatServer server) {
         this.server = server;
+        server.addUser(this);
+    }
+
+    public void removeChatServer() {
+        this.server = null;
+        server.removeUser(this);
     }
 
     public void sendMessage(String content, Set<User> recipients) {
@@ -27,11 +33,24 @@ public class User {
     public void receiveMessage(Message msg) {
         history.addMessage(msg);
 
-        System.out.println(String.format("User %s recieved: [%s]", this.getName(), msg.toString()));
+        System.out.println(String.format("[%s]", msg.toSimplifiedString()));
     }
+
+//    public void undoLastSentMessage() {
+//        Message lastSentMessage = this.history.getLastSentMessage(this);
+//        server.undoLastMessage(lastSentMessage);
+//    }
+//
+//    public void removeMessage(Message msg) {
+//        history.removeMessage(msg);
+//    }
 
     public void block(User user) {
         this.server.addBlock(this, user);
+    }
+
+    public void unblock(User user) {
+        this.server.removeBlock(this, user);
     }
 
     public String getName() {

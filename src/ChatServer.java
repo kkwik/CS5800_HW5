@@ -11,7 +11,10 @@ public class ChatServer implements ChatServerMediator {
 
     public void addUser(User user) {
         this.users.add(user);
-        user.setChatServer(this);
+    }
+
+    public void removeUser(User user) {
+        this.users.remove(user);
     }
 
     public void sendMessage(Message msg) {
