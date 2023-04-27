@@ -6,7 +6,7 @@ public class User {
     private static int userCount;
     private int id;
     private String name;
-    private ChatHistory history;
+    protected ChatHistory history;
     private ChatServer server;
 
     public User(String name) {
@@ -41,9 +41,9 @@ public class User {
 //        server.undoLastMessage(lastSentMessage);
 //    }
 //
-//    public void removeMessage(Message msg) {
-//        history.removeMessage(msg);
-//    }
+    public void removeMessage(Message msg) {
+        history.removeMessage(msg);
+    }
 
     public void block(User user) {
         this.server.addBlock(this, user);

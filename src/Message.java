@@ -1,3 +1,5 @@
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -20,6 +22,12 @@ public class Message {
 
     public Set<User> getRecipients() {
         return recipients;
+    }
+
+    public Set<User> getChatMembers() {
+        Set<User> temp = this.getRecipients();
+        temp.add(this.getSender());
+        return temp;
     }
 
     public long getTimestamp() {
