@@ -3,7 +3,6 @@ import java.util.*;
 public class ChatServer implements ChatServerMediator {
     List<User> users;
     Map<User, Set<User>> blocks;
-    Map<User, ChatHistory> chatHistory;
 
     public ChatServer() {
         this.users = new ArrayList<>();

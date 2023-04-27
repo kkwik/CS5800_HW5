@@ -2,17 +2,20 @@ import java.util.*;
 
 public class ChatHistory {
     public int userId;
-    private List<Message> sentMessages;
+    private Map<Set<User>, List<Message>> history;
 
     public ChatHistory() {
-        this.sentMessages = new ArrayList<>();
+        this.history = new HashMap<>();
     }
 
     public void addMessage(Message msg) {
-        sentMessages.add(msg);
+        Set<User> recipients = msg.getRecipients();
+        if(!history.containsKey(recipients)) {
+            history.put(recipients, new ArrayList<Message>());
+        }
+
+        List<Message> messages = history.get(recipients);
+        messages.add(msg);
+        history.put(recipients, messages);
     }
-
-
-
-
 }
