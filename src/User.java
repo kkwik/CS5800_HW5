@@ -56,8 +56,6 @@ public class User implements IterableByUser {
         history.removeMessage(msg);
     }
 
-
-
     public void block(User user) {
         this.server.addBlock(this, user);
     }

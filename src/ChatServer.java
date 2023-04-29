@@ -68,8 +68,4 @@ public class ChatServer implements ChatServerMediator {
     private boolean userBlockedUser(User blocker, User blockee) {
         return blocks.containsKey(blocker) && blocks.get(blocker).contains(blockee);
     }
-
-
-
-
 }
