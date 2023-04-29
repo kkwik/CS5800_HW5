@@ -1,12 +1,21 @@
 import java.util.*;
 
 public class ChatServer implements ChatServerMediator {
+    private static ChatServer server = null;
     List<User> users;
     Map<User, Set<User>> blocks;
 
-    public ChatServer() {
+    private ChatServer() {
         this.users = new ArrayList<>();
         this.blocks = new HashMap<>();
+    }
+
+    public static ChatServer getInstance() {
+        if(server == null) {
+            server = new ChatServer();
+        }
+
+        return server;
     }
 
     public void addUser(User user) {
@@ -18,9 +27,15 @@ public class ChatServer implements ChatServerMediator {
     }
 
     public void sendMessage(Message msg) {
-        for(User user : msg.getRecipients()) {
+        for(User user : msg.chatGroup().getUsers()) {
             if(canCommunicate(msg.getSender(), user))
                 user.receiveMessage(msg);
+        }
+    }
+
+    public void removeMessage(Message msg) {
+        for(User user : msg.chatGroup().getUsers()) {
+                user.removeRecievedMessage(msg);
         }
     }
 
@@ -54,7 +69,7 @@ public class ChatServer implements ChatServerMediator {
         return blocks.containsKey(blocker) && blocks.get(blocker).contains(blockee);
     }
 
-    public void undoLastMessage(User user) {}
+
 
 
 }

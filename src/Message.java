@@ -1,17 +1,21 @@
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Message {
+    private static long id = 0;
+    private final long messageId;
     private final User sender;
-    private final Set<User> recipients;
+    private final UserGroup group;
     private final long timestamp;
     private final String content;
 
-    public Message(User sender, String content, Set<User> recipients) {
+    public Message(User sender, String content, UserGroup group) {
+        this.messageId = id++;
         this.sender = sender;
-        this.recipients = recipients;
+        this.group = group;
         this.content = content;
         this.timestamp = System.currentTimeMillis() / 1000;
     }
@@ -21,13 +25,13 @@ public class Message {
     }
 
     public Set<User> getRecipients() {
+        Set<User> recipients = this.chatGroup().getUsers();
+        recipients.remove(this.getSender());
         return recipients;
     }
 
-    public Set<User> getChatMembers() {
-        Set<User> temp = this.getRecipients();
-        temp.add(this.getSender());
-        return temp;
+    public UserGroup chatGroup() {
+        return group;
     }
 
     public long getTimestamp() {
@@ -41,7 +45,7 @@ public class Message {
     @Override
     public String toString() {
         String output = "";
-        output += String.format("To: %s\n", this.getRecipients().stream().map(user -> user.getName()).collect(Collectors.toList()));
+        output += String.format("To: %s\n", this.chatGroup().members.stream().map(user -> user.getName()).collect(Collectors.toList()));
         output += String.format("From: %s\n", this.getSender().getName());
         output += String.format("Contains: %s", this.getContent());
         return output;
@@ -49,7 +53,7 @@ public class Message {
 
     public String toSimplifiedString() {
         String output = "";
-        output += String.format("%s -> %s: [%s]", this.getSender().getName(), this.getRecipients().stream().map(user -> user.getName()).collect(Collectors.toList()), this.getContent());
+        output += String.format("%s -> %s: [%s]", this.getSender().getName(), this.chatGroup().members.stream().map(user -> user.getName()).collect(Collectors.toList()), this.getContent());
         return output;
     }
 }
